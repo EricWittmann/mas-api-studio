@@ -17,6 +17,40 @@
         "/teams": {
             "summary": "Manage the collection of teams",
             "get": {
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "description": "",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "offset",
+                        "description": "",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "order",
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/components/schemas/TeamSortBy"
+                        },
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "content": {
@@ -24,7 +58,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Team"
+                                        "$ref": "#/components/schemas/TeamResults"
                                     }
                                 }
                             }
@@ -63,6 +97,216 @@
                 "summary": "Create a new team",
                 "description": "Creates a new team.\n\nThis operation may fail for one of the following reasons:\n\n* The provided team name was invalid (HTTP error `400`)\n* A team with the provided name already exists (HTTP error `409`)\n* A server error occurred (HTTP error `500`)\n"
             }
+        },
+        "/teams/{teamName}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Team"
+                                }
+                            }
+                        },
+                        "description": "Information about a team."
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "operationId": "getTeam",
+                "summary": "Get information about a team"
+            },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTeam"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "204": {
+                        "description": "Team was updated successfully."
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "operationId": "updateTeam",
+                "summary": "Update team information"
+            },
+            "delete": {
+                "responses": {
+                    "204": {
+                        "description": "The team was successfully deleted."
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "operationId": "deleteTeam",
+                "summary": "Delete a team"
+            },
+            "parameters": [
+                {
+                    "name": "teamName",
+                    "description": "Unique name of the team.",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        },
+        "/teams/{teamName}/members": {
+            "summary": "Manage the members of a team",
+            "get": {
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "description": "",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "offset",
+                        "description": "",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "order",
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/components/schemas/TeamMemberSortBy"
+                        },
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TeamMemberResults"
+                                }
+                            }
+                        },
+                        "description": "A list of team members."
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "operationId": "listMembers",
+                "summary": "List team members"
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewTeamMember"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "The team member was added."
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "operationId": "addTeamMember",
+                "summary": "Add a member to the team"
+            },
+            "parameters": [
+                {
+                    "name": "teamName",
+                    "description": "Unique name of a team.",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        },
+        "/teams/{teamName}/members/{principal}": {
+            "delete": {
+                "responses": {
+                    "204": {
+                        "description": "The team member was removed."
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFound"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "operationId": "deleteTeamMember",
+                "summary": "Remove a team member"
+            },
+            "parameters": [
+                {
+                    "name": "principal",
+                    "description": "The principal of a team member.",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "path",
+                    "required": true
+                },
+                {
+                    "name": "teamName",
+                    "description": "The unique name of the team.",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "path",
+                    "required": true
+                }
+            ]
         }
     },
     "components": {
@@ -79,6 +323,10 @@
                         "type": "string"
                     },
                     "description": {
+                        "type": "string"
+                    },
+                    "created-by": {
+                        "description": "",
                         "type": "string"
                     }
                 },
@@ -102,34 +350,6 @@
                 "example": {
                     "name": "project-1-team",
                     "description": "A team of people working on a project."
-                }
-            },
-            "Error": {
-                "title": "Root Type for Error",
-                "description": "All error responses, whether `4xx` or `5xx` will include one of these as the response\nbody.",
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "description": "The short error message.",
-                        "type": "string"
-                    },
-                    "error_code": {
-                        "format": "int32",
-                        "description": "The server-side error code.",
-                        "type": "integer"
-                    },
-                    "detail": {
-                        "description": "Full details about the error.  This might contain a server stack trace, for example.",
-                        "type": "string"
-                    },
-                    "name": {
-                        "description": "The error name - typically the classname of the exception thrown by the server.",
-                        "type": "string"
-                    }
-                },
-                "example": {
-                    "error_code": 500,
-                    "message": "An error occurred somewhere."
                 }
             },
             "ApiMetaData": {
@@ -195,36 +415,185 @@
                         }
                     },
                     {
-                        "$ref": "#/components/schemas/Error"
+                        "$ref": "#/components/schemas/ErrorInfo"
+                    }
+                ]
+            },
+            "UpdateTeam": {
+                "title": "Root Type for UpdateTeam",
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "description": "An updated description of the team."
+                }
+            },
+            "TeamSortBy": {
+                "description": "",
+                "enum": [
+                    "name",
+                    "created-on"
+                ],
+                "type": "string"
+            },
+            "TeamMemberSortBy": {
+                "description": "",
+                "enum": [
+                    "name"
+                ],
+                "type": "string"
+            },
+            "TeamMemberResults": {
+                "description": "",
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "members"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "members": {
+                                "description": "",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/TeamMember"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/Results"
+                    }
+                ]
+            },
+            "Results": {
+                "title": "Root Type for SearchResults",
+                "description": "",
+                "required": [
+                    "count"
+                ],
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "format": "int32",
+                        "minimum": 0,
+                        "type": "integer"
+                    }
+                },
+                "example": {
+                    "count": 100
+                }
+            },
+            "TeamResults": {
+                "title": "Root Type for TeamSearchResults",
+                "description": "",
+                "type": "object",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "teams": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Team"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/Results"
                     }
                 ],
-                "x-codegen-extendsClass": "io.apicurio.mas.studio.rest.v1.beans.Error"
+                "example": {
+                    "count": 2,
+                    "teams": [
+                        {
+                            "name": "team-1",
+                            "description": "Description of team one."
+                        },
+                        {
+                            "name": "team-2",
+                            "description": "Description of team two."
+                        }
+                    ]
+                }
+            },
+            "TeamMember": {
+                "title": "Root Type for TeamMember",
+                "description": "",
+                "required": [
+                    "principal"
+                ],
+                "type": "object",
+                "properties": {
+                    "principal": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "principal": "bwayne@gotham.gov"
+                }
+            },
+            "NewTeamMember": {
+                "title": "Root Type for NewTeamMember",
+                "description": "",
+                "required": [
+                    "principal"
+                ],
+                "type": "object",
+                "properties": {
+                    "principal": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "principal": "dprince@themyscira.gov"
+                }
+            },
+            "SortOrder": {
+                "description": "",
+                "enum": [
+                    "asc",
+                    "desc"
+                ],
+                "type": "string",
+                "example": "\"asc\""
+            },
+            "ErrorInfo": {
+                "title": "Root Type for ErrorInfo",
+                "description": "Details about a specific error returned by the server.",
+                "required": [
+                ],
+                "type": "object",
+                "properties": {
+                    "error_code": {
+                        "format": "int32",
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "detail": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "error_code": 500,
+                    "message": "An error occurred on the server."
+                }
             }
         },
         "responses": {
-            "NotFound": {
-                "description": ""
-            },
-            "ServerError": {
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "$ref": "#/components/schemas/Error"
-                        }
-                    }
-                },
-                "description": ""
-            },
-            "BadRequest": {
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "$ref": "#/components/schemas/Error"
-                        }
-                    }
-                },
-                "description": "Common response for all operations that can return a `400` error."
-            },
             "InvalidInput": {
                 "content": {
                     "application/json": {
@@ -234,6 +603,36 @@
                     }
                 },
                 "description": ""
+            },
+            "BadRequest": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorInfo"
+                        }
+                    }
+                },
+                "description": "Common response for all operations that can return a `400` error."
+            },
+            "NotFound": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorInfo"
+                        }
+                    }
+                },
+                "description": "The response returned when something is requested but cannot be found."
+            },
+            "ServerError": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorInfo"
+                        }
+                    }
+                },
+                "description": "The response sent from the server when an unexpected error occurs (for example \na database connection error)."
             }
         }
     },

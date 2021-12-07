@@ -4,6 +4,7 @@ package io.apicurio.mas.studio.rest.v1.beans;
 import javax.annotation.processing.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -16,7 +17,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "name",
-    "description"
+    "description",
+    "created-by"
 })
 @Generated("jsonschema2pojo")
 @io.quarkus.runtime.annotations.RegisterForReflection
@@ -35,6 +37,12 @@ public class Team {
     private String name;
     @JsonProperty("description")
     private String description;
+    /**
+     * 
+     */
+    @JsonProperty("created-by")
+    @JsonPropertyDescription("")
+    private String createdBy;
 
     /**
      * 
@@ -64,6 +72,22 @@ public class Team {
     @JsonProperty("description")
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * 
+     */
+    @JsonProperty("created-by")
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    /**
+     * 
+     */
+    @JsonProperty("created-by")
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
 }

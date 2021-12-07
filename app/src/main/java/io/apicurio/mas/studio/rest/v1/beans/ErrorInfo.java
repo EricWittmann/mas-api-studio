@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "property",
     "error_code",
     "message",
     "detail",
@@ -28,16 +27,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @lombok.AllArgsConstructor
 @lombok.EqualsAndHashCode
 @lombok.ToString
-public class ValidationError {
+public class ErrorInfo {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("property")
-    @JsonPropertyDescription("")
-    private String property;
     @JsonProperty("error_code")
     private Integer errorCode;
     @JsonProperty("message")
@@ -54,26 +45,6 @@ public class ValidationError {
     @JsonProperty("name")
     @JsonPropertyDescription("")
     private String name;
-
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("property")
-    public String getProperty() {
-        return property;
-    }
-
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("property")
-    public void setProperty(String property) {
-        this.property = property;
-    }
 
     @JsonProperty("error_code")
     public Integer getErrorCode() {
