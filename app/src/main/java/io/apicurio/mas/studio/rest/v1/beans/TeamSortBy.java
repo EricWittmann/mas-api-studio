@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum TeamSortBy {
 
     name("name"),
-    created-on("created-on");
+    createdOn("createdOn");
     private final String value;
     private final static Map<String, TeamSortBy> CONSTANTS = new HashMap<String, TeamSortBy>();
 
