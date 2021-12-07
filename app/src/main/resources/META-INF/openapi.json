@@ -1,0 +1,262 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "MAS API Studio [v1]",
+        "version": "1.0.0",
+        "description": "Managed application services API Studio.",
+        "contact": {
+            "name": "Apicurio",
+            "email": "apicurio@lists.jboss.org"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "paths": {
+        "/teams": {
+            "summary": "Manage the collection of teams",
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Team"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "A list of teams."
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "operationId": "listTeams",
+                "summary": "List teams",
+                "description": "Lists all of the teams visible to the authenticated user.\n\nThis operation may fail for one of the following reasons:\n\n* A server error occurred (HTTP error `500`)\n"
+            },
+            "post": {
+                "requestBody": {
+                    "description": "Information about the new team being created.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewTeam"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "The team was successfully created."
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    }
+                },
+                "operationId": "createTeam",
+                "summary": "Create a new team",
+                "description": "Creates a new team.\n\nThis operation may fail for one of the following reasons:\n\n* The provided team name was invalid (HTTP error `400`)\n* A team with the provided name already exists (HTTP error `409`)\n* A server error occurred (HTTP error `500`)\n"
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Team": {
+                "title": "Root Type for Team",
+                "description": "",
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "name": "tiger-team",
+                    "description": "Team dedicated to killing it."
+                }
+            },
+            "NewTeam": {
+                "title": "Root Type for NewTeam",
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "name": "project-1-team",
+                    "description": "A team of people working on a project."
+                }
+            },
+            "Error": {
+                "title": "Root Type for Error",
+                "description": "All error responses, whether `4xx` or `5xx` will include one of these as the response\nbody.",
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "description": "The short error message.",
+                        "type": "string"
+                    },
+                    "error_code": {
+                        "format": "int32",
+                        "description": "The server-side error code.",
+                        "type": "integer"
+                    },
+                    "detail": {
+                        "description": "Full details about the error.  This might contain a server stack trace, for example.",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "The error name - typically the classname of the exception thrown by the server.",
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "error_code": 500,
+                    "message": "An error occurred somewhere."
+                }
+            },
+            "ApiMetaData": {
+                "title": "Root Type for ApiInfo",
+                "description": "Meta information about an API.",
+                "required": [
+                    "created-by",
+                    "created-on",
+                    "latest-version",
+                    "name",
+                    "namespace",
+                    "title"
+                ],
+                "type": "object",
+                "properties": {
+                    "namespace": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "latest-version": {
+                        "type": "string"
+                    },
+                    "created-on": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "created-by": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "namespace": "urn:example:logistics",
+                    "name": "fraud-detection-api",
+                    "title": "Fraud Detection API",
+                    "description": "A simple API to detect fraud.",
+                    "latest-version": "1.0.7",
+                    "created-on": "2021-01-17T17:55:22Z",
+                    "created-by": "bwayne@gotham.net"
+                }
+            },
+            "ValidationError": {
+                "description": "Error returned when an operation's input contains invalid data.",
+                "type": "object",
+                "allOf": [
+                    {
+                        "required": [
+                            "property"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "property": {
+                                "description": "",
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/Error"
+                    }
+                ],
+                "x-codegen-extendsClass": "io.apicurio.mas.studio.rest.v1.beans.Error"
+            }
+        },
+        "responses": {
+            "NotFound": {
+                "description": ""
+            },
+            "ServerError": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Error"
+                        }
+                    }
+                },
+                "description": ""
+            },
+            "BadRequest": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Error"
+                        }
+                    }
+                },
+                "description": "Common response for all operations that can return a `400` error."
+            },
+            "InvalidInput": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                },
+                "description": ""
+            }
+        }
+    },
+    "x-codegen": {
+        "contextRoot": "/apis/studio/v1",
+        "bean-annotations": [
+            "io.quarkus.runtime.annotations.RegisterForReflection",
+            {
+                "annotation": "lombok.Builder",
+                "excludeEnums": true
+            },
+            {
+                "annotation": "lombok.AllArgsConstructor",
+                "excludeEnums": true
+            },
+            {
+                "annotation": "lombok.EqualsAndHashCode",
+                "excludeEnums": true
+            },
+            {
+                "annotation": "lombok.ToString",
+                "excludeEnums": true
+            }
+        ]
+    }
+}
