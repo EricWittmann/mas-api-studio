@@ -436,7 +436,7 @@
                 "description": "",
                 "enum": [
                     "name",
-                    "created-on"
+                    "createdOn"
                 ],
                 "type": "string"
             },
