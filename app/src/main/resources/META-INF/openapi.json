@@ -649,6 +649,10 @@
                 "excludeEnums": true
             },
             {
+                "annotation": "lombok.NoArgsConstructor",
+                "excludeEnums": true
+            },
+            {
                 "annotation": "lombok.EqualsAndHashCode",
                 "excludeEnums": true
             },
