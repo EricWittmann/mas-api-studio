@@ -1,4 +1,4 @@
-var ApicurioRegistryConfig = {
+var ApiStudioConfig = {
     artifacts: {
         url: "http://localhost:8080/apis/studio/v1"
     },

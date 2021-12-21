@@ -43,7 +43,8 @@ module.exports = (mode) => {
             (isProduction) ? ".[chunkhash:8]" : ""
         }.js`,
         exposes: {
-          "./FederatedApisPage": "./src/app/pages/apis/apis.federated"
+          "./FederatedApisPage": "./src/app/pages/apis/apis.federated",
+          "./FederatedTeamsPage": "./src/app/pages/teams/teams.federated"
         },
         shared: {
           ...dependencies,

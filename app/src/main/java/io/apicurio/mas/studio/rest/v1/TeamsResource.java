@@ -9,7 +9,6 @@ import io.apicurio.mas.studio.rest.v1.beans.TeamMemberSortBy;
 import io.apicurio.mas.studio.rest.v1.beans.TeamResults;
 import io.apicurio.mas.studio.rest.v1.beans.TeamSortBy;
 import io.apicurio.mas.studio.rest.v1.beans.UpdateTeam;
-import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -35,7 +34,7 @@ public interface TeamsResource {
    */
   @GET
   @Produces("application/json")
-  List<TeamResults> listTeams(@QueryParam("limit") Integer limit,
+  TeamResults listTeams(@QueryParam("limit") Integer limit,
       @QueryParam("offset") Integer offset, @QueryParam("order") SortOrder order,
       @QueryParam("orderby") TeamSortBy orderby);
 

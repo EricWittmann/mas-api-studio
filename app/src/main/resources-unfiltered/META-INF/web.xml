@@ -4,29 +4,33 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     version="3.0">
 
-    <filter>
-        <filter-name>RedirectFilter</filter-name>
-        <filter-class>io.apicurio.registry.ui.servlets.RedirectFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>RedirectFilter</filter-name>
-        <url-pattern>/</url-pattern>
-    </filter-mapping>
+<!--     <filter> -->
+<!--         <filter-name>RedirectFilter</filter-name> -->
+<!--         <filter-class>io.apicurio.registry.ui.servlets.RedirectFilter</filter-class> -->
+<!--     </filter> -->
+<!--     <filter-mapping> -->
+<!--         <filter-name>RedirectFilter</filter-name> -->
+<!--         <url-pattern>/</url-pattern> -->
+<!--     </filter-mapping> -->
 
-    <filter>
-        <filter-name>RegistryApplicationServletFilter</filter-name>
-        <filter-class>io.apicurio.registry.rest.RegistryApplicationServletFilter</filter-class>
-        <async-supported>true</async-supported>
-    </filter>
-    <filter-mapping>
-        <filter-name>RegistryApplicationServletFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+<!--     <filter> -->
+<!--         <filter-name>ApplicationServletFilter</filter-name> -->
+<!--         <filter-class>io.apicurio.mas.studio.rest.ApplicationServletFilter</filter-class> -->
+<!--         <async-supported>true</async-supported> -->
+<!--     </filter> -->
+<!--     <filter-mapping> -->
+<!--         <filter-name>ApplicationServletFilter</filter-name> -->
+<!--         <url-pattern>/*</url-pattern> -->
+<!--     </filter-mapping> -->
 
     <filter>
         <filter-name>ResourceCacheControlFilter</filter-name>
-        <filter-class>io.apicurio.registry.ui.servlets.ResourceCacheControlFilter</filter-class>
+        <filter-class>io.apicurio.common.apps.web.filters.ResourceCacheControlFilter</filter-class>
         <async-supported>true</async-supported>
+        <init-param>
+            <param-name>disabledFor</param-name>
+            <param-value>version.js,config.js,/apis/</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>ResourceCacheControlFilter</filter-name>
@@ -35,7 +39,7 @@
 
     <filter>
         <filter-name>HSTSFilter</filter-name>
-        <filter-class>io.apicurio.registry.ui.servlets.HSTSFilter</filter-class>
+        <filter-class>io.apicurio.common.apps.web.filters.HSTSFilter</filter-class>
         <async-supported>true</async-supported>
     </filter>
     <filter-mapping>
@@ -45,68 +49,38 @@
 
     <filter>
         <filter-name>BaseHrefFilter</filter-name>
-        <filter-class>io.apicurio.registry.ui.servlets.BaseHrefFilter</filter-class>
+        <filter-class>io.apicurio.common.apps.web.filters.BaseHrefFilter</filter-class>
+        <async-supported>true</async-supported>
+        <init-param>
+            <param-name>fromHref</param-name>
+            <param-value>/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>toHref</param-name>
+            <param-value>/ui/</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>BaseHrefFilter</filter-name>
         <url-pattern>/ui/*</url-pattern>
     </filter-mapping>
 
-    <filter>
-        <filter-name>SpecUrlFilter</filter-name>
-        <filter-class>io.apicurio.registry.ui.servlets.SpecUrlFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>SpecUrlFilter</filter-name>
-        <url-pattern>/apis/registry/v2</url-pattern>
-        <url-pattern>/apis/registry/v2/</url-pattern>
-        <url-pattern>/apis/registry/v1</url-pattern>
-        <url-pattern>/apis/registry/v1/</url-pattern>
-        <url-pattern>/apis/ccompat/v6</url-pattern>
-        <url-pattern>/apis/ccompat/v6/</url-pattern>
-        <url-pattern>/apis/ibmcompat/v1</url-pattern>
-        <url-pattern>/apis/ibmcompat/v1/</url-pattern>
-        <url-pattern>/apis/cncf/v0</url-pattern>
-        <url-pattern>/apis/cncf/v0/</url-pattern>
-    </filter-mapping>
-
     <servlet>
         <servlet-name>ReactAppServlet</servlet-name>
-        <servlet-class>io.apicurio.registry.ui.servlets.ReactAppServlet</servlet-class>
+        <servlet-class>io.apicurio.common.apps.web.servlets.ReactAppServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ReactAppServlet</servlet-name>
-        <url-pattern>/ui/rules/*</url-pattern>
-        <url-pattern>/ui/artifacts/*</url-pattern>
+        <url-pattern>/ui/apis/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>ConfigJsServlet</servlet-name>
-        <servlet-class>io.apicurio.registry.ui.servlets.ConfigJsServlet</servlet-class>
+        <servlet-name>ConfigServlet</servlet-name>
+        <servlet-class>io.apicurio.mas.studio.web.servlets.ConfigServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ConfigJsServlet</servlet-name>
+        <servlet-name>ConfigServlet</servlet-name>
         <url-pattern>/ui/config.js</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ApiDocsServlet</servlet-name>
-        <servlet-class>io.apicurio.registry.ui.servlets.ApiDocsServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ApiDocsServlet</servlet-name>
-        <url-pattern>/apis</url-pattern>
-        <url-pattern>/apis/</url-pattern>
-        <url-pattern>/apis/registry/v2</url-pattern>
-        <url-pattern>/apis/registry/v2/</url-pattern>
-        <url-pattern>/apis/registry/v1</url-pattern>
-        <url-pattern>/apis/registry/v1/</url-pattern>
-        <url-pattern>/apis/ccompat/v6</url-pattern>
-        <url-pattern>/apis/ccompat/v6/</url-pattern>
-        <url-pattern>/apis/ibmcompat/v1</url-pattern>
-        <url-pattern>/apis/ibmcompat/v1/</url-pattern>
-        <url-pattern>/apis/cncf/v0</url-pattern>
-        <url-pattern>/apis/cncf/v0/</url-pattern>
     </servlet-mapping>
 
 </web-app>

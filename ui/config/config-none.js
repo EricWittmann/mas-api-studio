@@ -1,5 +1,5 @@
 var ApiStudioConfig = {
-    artifacts: {
+    api: {
         url: "http://localhost:8080/apis/studio/v1"
     },
     ui: {
