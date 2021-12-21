@@ -56,10 +56,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/TeamResults"
-                                    }
+                                    "$ref": "#/components/schemas/TeamResults"
                                 }
                             }
                         },
@@ -307,6 +304,32 @@
                     "required": true
                 }
             ]
+        },
+        "/users/me": {
+            "summary": "Retrieves information about the current user",
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserInfo"
+                                }
+                            }
+                        },
+                        "description": "Response when the endpoint is successfully invoked."
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "operationId": "getCurrentUserInfo",
+                "summary": "Get current user",
+                "description": "Returns information about the currently authenticated user."
+            }
         }
     },
     "components": {
@@ -563,6 +586,26 @@
                 ],
                 "type": "string",
                 "example": "\"asc\""
+            },
+            "UserInfo": {
+                "title": "Root Type for UserInfo",
+                "description": "Information about a single user.",
+                "required": [
+                    "username"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "username": "dprince",
+                    "displayName": "Diana Prince"
+                }
             },
             "ErrorInfo": {
                 "title": "Root Type for ErrorInfo",

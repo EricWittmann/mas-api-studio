@@ -34,9 +34,8 @@ public interface TeamsResource {
    */
   @GET
   @Produces("application/json")
-  TeamResults listTeams(@QueryParam("limit") Integer limit,
-      @QueryParam("offset") Integer offset, @QueryParam("order") SortOrder order,
-      @QueryParam("orderby") TeamSortBy orderby);
+  TeamResults listTeams(@QueryParam("limit") Integer limit, @QueryParam("offset") Integer offset,
+      @QueryParam("order") SortOrder order, @QueryParam("orderby") TeamSortBy orderby);
 
   /**
    * Creates a new team.
