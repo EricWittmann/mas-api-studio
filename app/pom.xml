@@ -25,6 +25,10 @@
         </dependency>
         <dependency>
             <groupId>io.apicurio</groupId>
+            <artifactId>apicurio-common-app-components-auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.apicurio</groupId>
             <artifactId>apicurio-common-app-components-util</artifactId>
         </dependency>
         <dependency>
@@ -41,7 +45,16 @@
         </dependency>
         <dependency>
             <groupId>io.apicurio</groupId>
+            <artifactId>apicurio-common-app-components-mt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.apicurio</groupId>
+            <artifactId>apicurio-common-rest-client-jdk</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>mas-api-studio-ui</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Quarkus Dependencies -->

@@ -1,5 +1,5 @@
 var ApiStudioConfig = {
-    artifacts: {
+    api: {
         url: "http://localhost:8080/apis/studio/v1"
     },
     ui: {
@@ -8,8 +8,6 @@ var ApiStudioConfig = {
     },
     auth: {
         type: "keycloakjs",
-        rbacEnabled: true,
-        obacEnabled: false,
         options: {
             url: "https://studio-auth.apicur.io/auth",
             realm: "apicurio-local",

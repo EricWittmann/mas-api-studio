@@ -123,7 +123,7 @@
 
         <!-- Apicurio Commons -->
         <apicurio-common-app-components.version>0.1.1-SNAPSHOT</apicurio-common-app-components.version>
-        <apicurio-common-rest-client.version>0.1.1.Final</apicurio-common-rest-client.version>
+        <apicurio-common-rest-client.version>0.1.5.Final</apicurio-common-rest-client.version>
 
         <!-- Apicurio Registry -->
         <apicurio-registry.version>2.1.4.Final</apicurio-registry.version>
@@ -167,18 +167,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- This project -->
-            <dependency>
-                <groupId>io.apicurio</groupId>
-                <artifactId>mas-api-studio-app</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.apicurio</groupId>
-                <artifactId>mas-api-studio-ui</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
             <!-- Quarkus Dependencies -->
             <dependency>
                 <groupId>io.quarkus</groupId>
@@ -201,6 +189,11 @@
             </dependency>
             <dependency>
                 <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-common-app-components-auth</artifactId>
+                <version>${apicurio-common-app-components.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.apicurio</groupId>
                 <artifactId>apicurio-common-app-components-logging</artifactId>
                 <version>${apicurio-common-app-components.version}</version>
             </dependency>
@@ -216,6 +209,11 @@
             </dependency>
             <dependency>
                 <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-common-app-components-maven-plugin</artifactId>
+                <version>${apicurio-common-app-components.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.apicurio</groupId>
                 <artifactId>apicurio-common-app-components-storage</artifactId>
                 <version>${apicurio-common-app-components.version}</version>
             </dependency>
@@ -226,8 +224,18 @@
             </dependency>
             <dependency>
                 <groupId>io.apicurio</groupId>
-                <artifactId>apicurio-registry-maven-plugin</artifactId>
-                <version>${apicurio-registry.version}</version>
+                <artifactId>apicurio-common-rest-client-common</artifactId>
+                <version>${apicurio-common-rest-client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-common-rest-client-jdk</artifactId>
+                <version>${apicurio-common-rest-client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.apicurio</groupId>
+                <artifactId>apicurio-common-rest-client-vertx</artifactId>
+                <version>${apicurio-common-rest-client.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
