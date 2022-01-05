@@ -17,6 +17,9 @@
         "/teams": {
             "summary": "Manage the collection of teams",
             "get": {
+                "tags": [
+                    "Teams"
+                ],
                 "parameters": [
                     {
                         "name": "limit",
@@ -82,12 +85,18 @@
                     },
                     "required": true
                 },
+                "tags": [
+                    "Teams"
+                ],
                 "responses": {
                     "201": {
                         "description": "The team was successfully created."
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
                     }
                 },
                 "operationId": "createTeam",
@@ -97,6 +106,9 @@
         },
         "/teams/{teamName}": {
             "get": {
+                "tags": [
+                    "Teams"
+                ],
                 "responses": {
                     "200": {
                         "content": {
@@ -116,7 +128,8 @@
                     }
                 },
                 "operationId": "getTeam",
-                "summary": "Get information about a team"
+                "summary": "Get information about a team",
+                "description": "Operation used to get information about a single team."
             },
             "put": {
                 "requestBody": {
@@ -129,6 +142,9 @@
                     },
                     "required": true
                 },
+                "tags": [
+                    "Teams"
+                ],
                 "responses": {
                     "204": {
                         "description": "Team was updated successfully."
@@ -141,9 +157,13 @@
                     }
                 },
                 "operationId": "updateTeam",
-                "summary": "Update team information"
+                "summary": "Update team information",
+                "description": "Operation to update the information about a team."
             },
             "delete": {
+                "tags": [
+                    "Teams"
+                ],
                 "responses": {
                     "204": {
                         "description": "The team was successfully deleted."
@@ -156,7 +176,8 @@
                     }
                 },
                 "operationId": "deleteTeam",
-                "summary": "Delete a team"
+                "summary": "Delete a team",
+                "description": "Operation used to delete a team."
             },
             "parameters": [
                 {
@@ -173,6 +194,9 @@
         "/teams/{teamName}/members": {
             "summary": "Manage the members of a team",
             "get": {
+                "tags": [
+                    "Teams"
+                ],
                 "parameters": [
                     {
                         "name": "limit",
@@ -226,7 +250,8 @@
                     }
                 },
                 "operationId": "listMembers",
-                "summary": "List team members"
+                "summary": "List team members",
+                "description": "Operation to list the members of a single team."
             },
             "post": {
                 "requestBody": {
@@ -239,6 +264,9 @@
                     },
                     "required": true
                 },
+                "tags": [
+                    "Teams"
+                ],
                 "responses": {
                     "201": {
                         "description": "The team member was added."
@@ -254,7 +282,8 @@
                     }
                 },
                 "operationId": "addTeamMember",
-                "summary": "Add a member to the team"
+                "summary": "Add a member to the team",
+                "description": "Operation used to add a member to a team."
             },
             "parameters": [
                 {
@@ -270,6 +299,9 @@
         },
         "/teams/{teamName}/members/{principal}": {
             "delete": {
+                "tags": [
+                    "Teams"
+                ],
                 "responses": {
                     "204": {
                         "description": "The team member was removed."
@@ -282,7 +314,8 @@
                     }
                 },
                 "operationId": "deleteTeamMember",
-                "summary": "Remove a team member"
+                "summary": "Remove a team member",
+                "description": "Operation to remove a member from a team."
             },
             "parameters": [
                 {
@@ -330,6 +363,98 @@
                 "summary": "Get current user",
                 "description": "Returns information about the currently authenticated user."
             }
+        },
+        "/artifacts": {
+            "summary": "Manage the collection of artifacts",
+            "get": {
+                "tags": [
+                    "Artifacts"
+                ],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "description": "",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "offset",
+                        "description": "",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "order",
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        },
+                        "in": "query"
+                    },
+                    {
+                        "name": "orderby",
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/components/schemas/ArtifactSortBy"
+                        },
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ArtifactResults"
+                                }
+                            }
+                        },
+                        "description": "The list of artifacts is successfully returned."
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "operationId": "listArtifacts",
+                "summary": "List artifacts",
+                "description": "Lists all of the artifacts visible to the authenticated user.\n\nThis operation may fail for one of the following reasons:\n\n* A server error occurred (HTTP error `500`)\n"
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewArtifact"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "Artifacts"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The artifact was successfully created."
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    },
+                    "409": {
+                        "$ref": "#/components/responses/InvalidInput"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/ServerError"
+                    }
+                },
+                "operationId": "createArtifact",
+                "summary": "Create an artifact",
+                "description": "Creates a new artifact.\n\nThis operation may fail for one of the following reasons:\n\n* The provided artifact QName was invalid (HTTP error `400`)\n* An artifact with the provided QName already exists (HTTP error `409`)\n* A server error occurred (HTTP error `500`)\n"
+            }
         }
     },
     "components": {
@@ -348,7 +473,7 @@
                     "description": {
                         "type": "string"
                     },
-                    "created-by": {
+                    "createdBy": {
                         "description": "",
                         "type": "string"
                     }
@@ -373,52 +498,6 @@
                 "example": {
                     "name": "project-1-team",
                     "description": "A team of people working on a project."
-                }
-            },
-            "ApiMetaData": {
-                "title": "Root Type for ApiInfo",
-                "description": "Meta information about an API.",
-                "required": [
-                    "created-by",
-                    "created-on",
-                    "latest-version",
-                    "name",
-                    "namespace",
-                    "title"
-                ],
-                "type": "object",
-                "properties": {
-                    "namespace": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "title": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "latest-version": {
-                        "type": "string"
-                    },
-                    "created-on": {
-                        "format": "date-time",
-                        "type": "string"
-                    },
-                    "created-by": {
-                        "type": "string"
-                    }
-                },
-                "example": {
-                    "namespace": "urn:example:logistics",
-                    "name": "fraud-detection-api",
-                    "title": "Fraud Detection API",
-                    "description": "A simple API to detect fraud.",
-                    "latest-version": "1.0.7",
-                    "created-on": "2021-01-17T17:55:22Z",
-                    "created-by": "bwayne@gotham.net"
                 }
             },
             "ValidationError": {
@@ -512,40 +591,6 @@
                     "count": 100
                 }
             },
-            "TeamResults": {
-                "title": "Root Type for TeamSearchResults",
-                "description": "",
-                "type": "object",
-                "allOf": [
-                    {
-                        "type": "object",
-                        "properties": {
-                            "teams": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/components/schemas/Team"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "$ref": "#/components/schemas/Results"
-                    }
-                ],
-                "example": {
-                    "count": 2,
-                    "teams": [
-                        {
-                            "name": "team-1",
-                            "description": "Description of team one."
-                        },
-                        {
-                            "name": "team-2",
-                            "description": "Description of team two."
-                        }
-                    ]
-                }
-            },
             "TeamMember": {
                 "title": "Root Type for TeamMember",
                 "description": "",
@@ -606,6 +651,172 @@
                     "username": "dprince",
                     "displayName": "Diana Prince"
                 }
+            },
+            "ArtifactMetaData": {
+                "title": "Root Type for ApiInfo",
+                "description": "Meta information about an API.",
+                "required": [
+                    "createdBy",
+                    "createdOn",
+                    "latestVersion",
+                    "name",
+                    "namespace",
+                    "title",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "namespace": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "createdBy": {
+                        "type": "string"
+                    },
+                    "createdOn": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "latestVersion": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": ""
+                    }
+                },
+                "example": {
+                    "namespace": "urn:example:logistics",
+                    "name": "fraud-detection-api",
+                    "title": "Fraud Detection API",
+                    "description": "A simple API to detect fraud.",
+                    "latest-version": "1.0.7",
+                    "created-on": "2021-01-17T17:55:22Z",
+                    "created-by": "bwayne@gotham.net"
+                }
+            },
+            "NewArtifact": {
+                "title": "Root Type for NewArtifact",
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "namespace": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "contentFrom": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "namespace": "urn:example:hr",
+                    "name": "career-api",
+                    "type": "OPENAPI",
+                    "content": "https://www.example.com/apis/sample.json",
+                    "contentFrom": "url"
+                }
+            },
+            "ArtifactType": {
+                "description": "",
+                "enum": [
+                    "JSON_SCHEMA",
+                    "OPENAPI",
+                    "ASYNCAPI"
+                ],
+                "type": "string",
+                "example": "OPENAPI",
+                "x-codegen-package": "io.apicurio.mas.studio.types"
+            },
+            "TeamResults": {
+                "title": "Root Type for TeamResults",
+                "description": "",
+                "type": "object",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "teams": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Team"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/Results"
+                    }
+                ],
+                "example": {
+                    "count": 2,
+                    "teams": [
+                        {
+                            "name": "team-1",
+                            "description": "Description of team one."
+                        },
+                        {
+                            "name": "team-2",
+                            "description": "Description of team two."
+                        }
+                    ]
+                }
+            },
+            "ArtifactResults": {
+                "title": "Root Type for ArtifactsResults",
+                "description": "",
+                "type": "object",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "artifacts": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/ArtifactMetaData"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/Results"
+                    }
+                ],
+                "example": {
+                    "count": 2,
+                    "artifacts": [
+                        {
+                            "namespace": "urn:foo",
+                            "name": "some-api"
+                        },
+                        {
+                            "namespace": "urn:bar",
+                            "name": "some-api"
+                        }
+                    ]
+                }
+            },
+            "ArtifactSortBy": {
+                "description": "",
+                "enum": [
+                    "name",
+                    "createdOn"
+                ],
+                "type": "string"
             },
             "ErrorInfo": {
                 "title": "Root Type for ErrorInfo",
@@ -679,6 +890,16 @@
             }
         }
     },
+    "tags": [
+        {
+            "name": "Artifacts",
+            "description": "Operations related to managing artifacts."
+        },
+        {
+            "name": "Teams",
+            "description": "Operations related to teams."
+        }
+    ],
     "x-codegen": {
         "contextRoot": "/apis/studio/v1",
         "bean-annotations": [
