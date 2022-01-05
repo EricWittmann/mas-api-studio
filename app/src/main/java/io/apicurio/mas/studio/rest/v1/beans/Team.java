@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "name",
     "description",
-    "created-by"
+    "createdBy"
 })
 @Generated("jsonschema2pojo")
 @io.quarkus.runtime.annotations.RegisterForReflection
@@ -41,7 +41,7 @@ public class Team {
     /**
      * 
      */
-    @JsonProperty("created-by")
+    @JsonProperty("createdBy")
     @JsonPropertyDescription("")
     private String createdBy;
 
@@ -78,7 +78,7 @@ public class Team {
     /**
      * 
      */
-    @JsonProperty("created-by")
+    @JsonProperty("createdBy")
     public String getCreatedBy() {
         return createdBy;
     }
@@ -86,7 +86,7 @@ public class Team {
     /**
      * 
      */
-    @JsonProperty("created-by")
+    @JsonProperty("createdBy")
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }

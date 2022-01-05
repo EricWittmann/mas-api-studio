@@ -51,20 +51,32 @@ public interface TeamsResource {
   @Consumes("application/json")
   void createTeam(NewTeam data);
 
+  /**
+   * Operation used to get information about a single team.
+   */
   @Path("/{teamName}")
   @GET
   @Produces("application/json")
   Team getTeam(@PathParam("teamName") String teamName);
 
+  /**
+   * Operation to update the information about a team.
+   */
   @Path("/{teamName}")
   @PUT
   @Consumes("application/json")
   void updateTeam(@PathParam("teamName") String teamName, UpdateTeam data);
 
+  /**
+   * Operation used to delete a team.
+   */
   @Path("/{teamName}")
   @DELETE
   void deleteTeam(@PathParam("teamName") String teamName);
 
+  /**
+   * Operation to list the members of a single team.
+   */
   @Path("/{teamName}/members")
   @GET
   @Produces("application/json")
@@ -72,11 +84,17 @@ public interface TeamsResource {
       @QueryParam("limit") Integer limit, @QueryParam("offset") Integer offset,
       @QueryParam("order") SortOrder order, @QueryParam("orderby") TeamMemberSortBy orderby);
 
+  /**
+   * Operation used to add a member to a team.
+   */
   @Path("/{teamName}/members")
   @POST
   @Consumes("application/json")
   void addTeamMember(@PathParam("teamName") String teamName, NewTeamMember data);
 
+  /**
+   * Operation to remove a member from a team.
+   */
   @Path("/{teamName}/members/{principal}")
   @DELETE
   void deleteTeamMember(@PathParam("principal") String principal,
