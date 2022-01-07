@@ -23,11 +23,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
+import io.apicurio.common.apps.mt.TenantContext;
 import io.apicurio.common.apps.storage.exceptions.AlreadyExistsException;
 import io.apicurio.common.apps.storage.exceptions.StorageException;
 import io.apicurio.common.apps.storage.sql.AbstractSqlStorage;
 import io.apicurio.common.apps.util.IoUtil;
-import io.apicurio.mas.studio.mt.TenantContext;
 import io.apicurio.mas.studio.rest.v1.beans.SortOrder;
 import io.apicurio.mas.studio.rest.v1.beans.Team;
 import io.apicurio.mas.studio.rest.v1.beans.TeamResults;
@@ -92,7 +92,7 @@ public class SqlStorage extends AbstractSqlStorage<SqlStatements> {
 
             String query = sql + orderByClause.toString() + limitByClause.toString();
             List<Team> teams = handle.createQuery(query)
-                    .bind(0, tenantContext.tenantId())
+                    .bind(0, tenantContext.getTenantId())
                     .bind(1, limit)
                     .bind(2, offset)
                     .map(TeamMapper.instance)
@@ -105,7 +105,7 @@ public class SqlStorage extends AbstractSqlStorage<SqlStatements> {
             if ((teams.isEmpty() && offset != 0) || teams.size() == limit) {
                 String countQuery = countSql;
                 Integer count = handle.createQuery(countQuery)
-                        .bind(0, tenantContext.tenantId())
+                        .bind(0, tenantContext.getTenantId())
                         .mapTo(Integer.class)
                         .one();
                 results.setCount(count);
@@ -129,7 +129,7 @@ public class SqlStorage extends AbstractSqlStorage<SqlStatements> {
         this.handles.withHandle( handle -> {
             String sql = sqlStatements.insertTeam();
             handle.createUpdate(sql)
-                  .bind(0, tenantContext.tenantId())
+                  .bind(0, tenantContext.getTenantId())
                   .bind(1, team.getName())
                   .bind(2, team.getDescription())
                   .bind(3, team.getCreatedBy())

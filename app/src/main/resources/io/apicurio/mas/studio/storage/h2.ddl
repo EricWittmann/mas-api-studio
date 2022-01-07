@@ -10,3 +10,8 @@ CREATE TABLE teams (tenantId VARCHAR(128) NOT NULL, name VARCHAR(128) NOT NULL, 
 ALTER TABLE teams ADD PRIMARY KEY (tenantId, name);
 CREATE INDEX IDX_teams_1 ON teams(name);
 CREATE INDEX IDX_teams_2 ON teams(createdBy);
+
+CREATE TABLE config (tenantId VARCHAR(128) NOT NULL, pname VARCHAR(255) NOT NULL, ptype VARCHAR(255) NOT NULL, pvalue VARCHAR(1024), modifiedOn BIGINT NOT NULL);
+ALTER TABLE config ADD PRIMARY KEY (tenantId, pname);
+CREATE INDEX IDX_config_1 ON config(modifiedOn);
+
